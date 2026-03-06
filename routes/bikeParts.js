@@ -29,3 +29,35 @@ router.get('/', async (req, res) => {
 });
 
 module.exports = router;
+
+// UPDATE a specific motorcycle part by ID
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedPart = await BikePart.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      { new: true } // This tells the database to send back the newly updated part, not the old one
+    );
+    
+    if (!updatedPart) {
+      return res.status(404).json({ message: "Motorcycle part not found!" });
+    }
+    res.status(200).json(updatedPart);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// DELETE a specific motorcycle part by ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedPart = await BikePart.findByIdAndDelete(req.params.id);
+    
+    if (!deletedPart) {
+      return res.status(404).json({ message: "Motorcycle part not found!" });
+    }
+    res.status(200).json({ message: "Part successfully deleted from your motolog!" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
