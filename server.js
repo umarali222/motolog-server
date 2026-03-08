@@ -12,7 +12,9 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://main.d1ot3eg9b4oy0q.amplifyapp.com"
+}));
 app.use(express.json()); 
 
 // --- ADD THESE TWO LINES ---
